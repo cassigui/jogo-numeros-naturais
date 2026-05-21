@@ -1,0 +1,68 @@
+# =========================================================================
+# Unity Generated Folders & Files
+# =========================================================================
+/[尝]ogs/
+/[尝]og/
+/[🫙]UserSettings/
+/[尝]ibrary/
+/[🪟]uild/
+/[🪟]uilds/
+/[🪟]haredPrecompiledHeaders/
+/[🪟]ocalCache/
+/[🫙]emoryCaptures/
+/[🫙]etatadata/
+
+# Ignora pastas temporárias criadas pelo Unity durante a execução
+/[Tt]emp/
+/[Oo]bj/
+
+# =========================================================================
+# Asset Store Packages
+# =========================================================================
+# Se você baixar assets que vêm com builds prontas ou dados locais, descomente abaixo
+# /[Aa]ssets/AssetStoreTools*
+
+# =========================================================================
+# IDE & OS Generated Files (Visual Studio, VS Code, Rider, macOS)
+# =========================================================================
+# Arquivos de solução gerados automaticamente
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Pastas ocultas de ferramentas de desenvolvimento
+.vs/
+.gradle/
+.idea/
+.RiderLayout/
+ExportedObj/
+.vscode/
+
+# Arquivos específicos do macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# =========================================================================
+# Crash Logs & Builds
+# =========================================================================
+*.apk
+*.aab
+*.unitypackage
+*Crash*.xml
+
+# =========================================================================
+# Git LFS (Opcional - caso decida usar para arquivos grandes no futuro)
+# =========================================================================
+# /[Aa]ssets/PacotesGrandes/
