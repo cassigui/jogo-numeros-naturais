@@ -3,8 +3,8 @@ guid: 963a36b1060324120aaad861b6cb65c6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8708928317580393208
-    second: Design sem nome (2)_0
+      213: -6303573570364394286
+    second: fundo-menu_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Design sem nome (2)_0
+      name: fundo-menu_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1920
-        height: 1080
+        width: 2000
+        height: 1333
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8fa38b7b9245cd870800000000000000
-      internalID: 8708928317580393208
+      spriteID: 2d4b3ea4c353588a0800000000000000
+      internalID: -6303573570364394286
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Design sem nome (2)_0: 8708928317580393208
+      fundo-menu_0: -6303573570364394286
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

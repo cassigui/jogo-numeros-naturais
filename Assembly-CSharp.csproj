@@ -50,13 +50,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/AudioManagerPersistente.cs" />
+    <Compile Include="Assets/Scripts/HeartAnimation.cs" />
     <Compile Include="Assets/Scripts/HelperManager.cs" />
     <Compile Include="Assets/Scripts/TemporaryPulse.cs" />
     <Compile Include="Assets/Scripts/MenuPrincipalManager.cs" />
     <Compile Include="Assets/Scripts/DraggableItem.cs" />
+    <Compile Include="Assets/Scripts/TecladoSenhaManager.cs" />
+    <Compile Include="Assets/Scripts/Fase02.cs" />
+    <Compile Include="Assets/Scripts/LockAnimation.cs" />
     <Compile Include="Assets/Scripts/SlotItem.cs" />
     <Compile Include="Assets/Scripts/FaseManager.cs" />
     <Compile Include="Assets/Scripts/PulseItem.cs" />
+    <Compile Include="Assets/Scripts/PowerButton.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets/TextMesh Pro/Shaders/TMPro.cginc" />

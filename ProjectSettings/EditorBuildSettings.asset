@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Menu.unity
     guid: c8f691782646a4375a4caaaa8b211c80
   - enabled: 1
-    path: Assets/Jogo.unity
+    path: Assets/Fase01.unity
     guid: 5163ac330048a49e191cd82935cada66
+  - enabled: 1
+    path: Assets/Fase02.unity
+    guid: 746e1da8b45134786a4f3709701616b2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
