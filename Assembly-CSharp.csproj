@@ -49,13 +49,17 @@
     <Analyzer Include="/Applications/Unity/Hub/Editor/6000.3.14f1/Unity.app/Contents/Resources/BuildPipeline/Unity.SourceGenerators/Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets/Scripts/DraggableResultado.cs" />
     <Compile Include="Assets/Scripts/AudioManagerPersistente.cs" />
     <Compile Include="Assets/Scripts/HeartAnimation.cs" />
     <Compile Include="Assets/Scripts/HelperManager.cs" />
+    <Compile Include="Assets/Scripts/GerenciadorContas.cs" />
     <Compile Include="Assets/Scripts/TemporaryPulse.cs" />
     <Compile Include="Assets/Scripts/MenuPrincipalManager.cs" />
+    <Compile Include="Assets/Scripts/Fase03.cs" />
     <Compile Include="Assets/Scripts/DraggableItem.cs" />
     <Compile Include="Assets/Scripts/TecladoSenhaManager.cs" />
+    <Compile Include="Assets/Scripts/SlotConta.cs" />
     <Compile Include="Assets/Scripts/Fase02.cs" />
     <Compile Include="Assets/Scripts/LockAnimation.cs" />
     <Compile Include="Assets/Scripts/SlotItem.cs" />

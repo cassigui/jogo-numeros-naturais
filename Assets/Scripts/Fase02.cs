@@ -8,8 +8,11 @@ public class Fase02 : MonoBehaviour
 {
     [Header("Configurações de UI")]
     public CanvasGroup canvasGroup;
-    public float duration = 0.5f;
-    public float delay = 0.5f;
+    [Tooltip("Tempo de espera antes de começar a surgir a fase")]
+    public float delay = 1.5f; // Aumentei o padrão para dar mais tempo, mude no Inspector se quiser
+    [Tooltip("Duração do efeito de surgimento (Fade In)")]
+    public float duration = 1.0f; 
+    
     [SerializeField] private SlotItem[] batterySlots;
     [SerializeField] private PowerButton meuBotaoPower;
 
@@ -27,7 +30,6 @@ public class Fase02 : MonoBehaviour
     [Tooltip("Digite o NOME EXATO da próxima cena/fase para onde o jogador vai ao vencer")]
     [SerializeField] private string nomeDaProximaFase = "Fase_03";
 
-    // 🌟 O PULO DO GATO PARA A FASE 2:
     [Tooltip("Marque esta caixinha APENAS na Fase 2 (Fase da Senha). Deixe desmarcada na Fase 1 (Pilhas).")]
     [SerializeField] private bool fasePorSenha = false;
 
@@ -75,9 +77,12 @@ public class Fase02 : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
         }
 
+        // Configuração inicial do Fade
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0;
+            canvasGroup.interactable = false; // Bloqueia cliques enquanto surge
+            canvasGroup.blocksRaycasts = false;
             StartCoroutine(FadeRoutine());
         }
     }
@@ -85,7 +90,6 @@ public class Fase02 : MonoBehaviour
     // Usado na FASE 1 (Pilhas)
     public void checkSlots()
     {
-        // Se alguém chamar isso na Fase de Senha por engano, redirecionamos para o erro de combinação seguro
         if (fasePorSenha)
         {
             TocarSom(errorSound, "Erro Senha");
@@ -116,7 +120,7 @@ public class Fase02 : MonoBehaviour
         }
     }
 
-    // 🌟 Usado na FASE 2 (Teclado/Senha) quando o jogador ACERTA a senha
+    // Usado na FASE 2 (Teclado/Senha)
     public void SenhaCorretaAcionarVitoria()
     {
         TocarSom(successSound, "Sucesso Senha");
@@ -124,7 +128,7 @@ public class Fase02 : MonoBehaviour
         StartCoroutine(PlayVideoRoutine());
     }
 
-    // 🌟 Usado na FASE 2 (Teclado/Senha) quando o jogador ERRA a senha
+    // Usado na FASE 2 (Teclado/Senha)
     public void SenhaIncorretaErrou()
     {
         TocarSom(errorSound, "Erro Senha");
@@ -233,5 +237,7 @@ public class Fase02 : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = 1;
+        canvasGroup.interactable = true; // Ativa os botões/interações após o término do fade
+        canvasGroup.blocksRaycasts = true;
     }
 }
