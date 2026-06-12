@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class SlotConta : MonoBehaviour, IDropHandler
 {
     [Header("Configuração da Linha (0, 1 ou 2)")]
-    [SerializeField] private int indexLinha; // Defina 0 para a primeira linha, 1 para a segunda, etc.
+    [SerializeField] private int indexLinha; 
 
     private DraggableResultado resultadoAtual;
     private GerenciadorContas gerenciadorContas;
@@ -16,6 +16,8 @@ public class SlotConta : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        Debug.Log($"O mouse soltou algo em cima do slot: {gameObject.name}");
+
         GameObject objetoArrastado = eventData.pointerDrag;
         
         if (objetoArrastado != null)
@@ -24,7 +26,7 @@ public class SlotConta : MonoBehaviour, IDropHandler
 
             if (novoResultado != null)
             {
-                // CASO DE TROCA: Se este slot JÁ TEM um resultado dentro dele
+                // CASO DE TROCA: Se este slot JÁ TEM um número dentro dele
                 if (transform.childCount > 0)
                 {
                     DraggableResultado resultadoAntigo = GetComponentInChildren<DraggableResultado>();
@@ -33,7 +35,7 @@ public class SlotConta : MonoBehaviour, IDropHandler
                     {
                         Transform paiAntigoDoNovo = novoResultado.ObterParentBeforeDrag();
 
-                        // Manda o resultado antigo para o lugar antigo do novo resultado
+                        // Move o número antigo para o slot de onde o novo veio
                         resultadoAntigo.transform.SetParent(paiAntigoDoNovo);
                         resultadoAntigo.rectTransform.anchoredPosition = Vector2.zero;
                         
@@ -42,15 +44,13 @@ public class SlotConta : MonoBehaviour, IDropHandler
                             resultadoAntigo.SetSlotAtual(slotAntigo);
                             slotAntigo.ConfigurarResultadoAtual(resultadoAntigo);
                             
-                            // Avisa o gerenciador que o item antigo agora está no slot antigo
                             if (gerenciadorContas != null)
                             {
-                                gerenciadorContas.ValidarDropMatematicoInversao(slotAntigo.indexLinha, resultadoAntigo);
+                                gerenciadorContas.ValidarDropMatematicoInversao(slotAntigo.ObterIndexLinha(), resultadoAntigo);
                             }
                         }
                         else
                         {
-                            // Se voltou para fora (limbo), remove a validação antiga dele
                             resultadoAntigo.SetSlotAtual(null);
                             if (gerenciadorContas != null) gerenciadorContas.RemoverValidacaoDaConta(indexLinha);
                             resultadoAntigo.MudarSprite(resultadoAntigo.SpriteOriginal);
@@ -63,8 +63,10 @@ public class SlotConta : MonoBehaviour, IDropHandler
                 novoResultado.foiAceitaNoSlot = true;
                 novoResultado.SetSlotAtual(this);
                 ConfigurarResultadoAtual(novoResultado);
-
-                // O novoResultado vai rodar a própria validação visual e do gerenciador no OnEndDrag dele!
+            }
+            else
+            {
+                Debug.LogWarning("❌ O objeto solto NÃO possui o componente DraggableResultado!");
             }
         }
     }

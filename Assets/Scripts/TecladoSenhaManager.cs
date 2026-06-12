@@ -9,7 +9,7 @@ public class TecladoSenhaManager : MonoBehaviour
     [SerializeField] private int limiteDigitos = 4;
 
     [Header("Configuração da Senha")]
-    [SerializeField] private string senhaCorreta = "1234";
+    [SerializeField] private string senhaCorreta = "285";
 
     [Header("Dependências do Jogo")]
     [SerializeField] private Fase02 faseManager;

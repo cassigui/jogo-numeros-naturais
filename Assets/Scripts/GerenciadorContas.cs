@@ -13,6 +13,10 @@ public class GerenciadorContas : MonoBehaviour
     [Header("Textos dos Resultados (Direita)")]
     [SerializeField] private TextMeshProUGUI[] textosResultados; // Tamanho 3
 
+    [Header("Configuração Dinâmica de Dificuldade")]
+    [Tooltip("O valor máximo que o resultado de uma soma ou subtração pode atingir nesta fase")]
+    [SerializeField] private int limiteSoma = 10; // Padrão é 10 (Random vai até limiteSoma + 1)
+
     // Estruturas internas
     private List<int> respostasCorretas = new List<int>();
     private int botaoContaSelecionado = -1;
@@ -51,16 +55,18 @@ public class GerenciadorContas : MonoBehaviour
                 tentativasSeguranca++;
                 ehSoma = Random.Range(0, 2) == 0;
 
+                int limiteRandom = limiteSoma + 1;
+
                 if (ehSoma)
                 {
-                    num1 = Random.Range(0, 11);
-                    num2 = Random.Range(0, 11 - num1);
+                    num1 = Random.Range(0, limiteRandom);
+                    num2 = Random.Range(0, limiteRandom - num1);
                     resultado = num1 + num2;
                     textoDaConta = $"{num1} + {num2}";
                 }
                 else
                 {
-                    num1 = Random.Range(0, 11);
+                    num1 = Random.Range(0, limiteRandom);
                     num2 = Random.Range(0, num1 + 1);
                     resultado = num1 - num2;
                     textoDaConta = $"{num1} - {num2}";

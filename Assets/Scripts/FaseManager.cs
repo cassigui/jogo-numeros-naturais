@@ -6,6 +6,26 @@ using UnityEngine.UI;
 
 public class FaseManager : MonoBehaviour
 {
+    [Header("Efeito Primeira Vida (Via Código)")]
+    [Tooltip("Arraste o objeto 'PrimeiraVida' (o pai) para cá")]
+    [SerializeField] private GameObject objetoPrimeiraVida;
+
+    [Tooltip("Arraste o objeto 'single_heart' para cá")]
+    [SerializeField] private RectTransform singleHeart;
+
+    [Tooltip("Duração total da animação (Pulsar + Subir sumindo)")]
+    [SerializeField] private float tempoEfeitoTotal = 1.2f;
+
+    [Tooltip("Distância em pixels que o coração vai subir ao desaparecer")]
+    [SerializeField] private float distanciaSubida = 150f;
+
+    private UnityEngine.UI.Image imagemCoracao;
+    private CanvasGroup canvasGroupPrimeiraVida;
+    private Vector2 posicaoOriginalCoracao;
+    [Tooltip("Áudio que tocará exclusivamente na primeira perda de vida")]
+    [SerializeField] private AudioClip somPrimeiraMorte;
+    private int vidasMaximas;
+
     [Header("Configurações de UI")]
     public CanvasGroup canvasGroup;
     public float duration = 0.5f;
@@ -15,7 +35,7 @@ public class FaseManager : MonoBehaviour
 
     [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private GameObject painelDoVideo;
-    [SerializeField] private HeartAnimation scriptDasVidas; 
+    [SerializeField] private HeartAnimation scriptDasVidas;
 
     [Header("Modais de Fim de Jogo")]
     [Tooltip("Arraste aqui o Painel/Modal de Game Over da sua UI")]
@@ -25,25 +45,42 @@ public class FaseManager : MonoBehaviour
 
     [Header("Sistema de Vidas")]
     [Tooltip("Coloque os Sprites em ordem: Posição 0 = 0 vidas, Posição 1 = 1 vida, até o máximo")]
-    [SerializeField] private Sprite[] spritesVidas; 
+    [SerializeField] private Sprite[] spritesVidas;
     private int vidasAtuais;
 
     [Header("Configurações de Áudio")]
-    [SerializeField] private AudioSource audioSource; 
-    [SerializeField] private AudioClip errorSound;    
-    [SerializeField] private AudioClip successSound;  
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip errorSound;
+    [SerializeField] private AudioClip successSound;
 
     void Start()
     {
         if (painelDoVideo != null) painelDoVideo.SetActive(false);
         if (modalGameOver != null) modalGameOver.SetActive(false);
-        
-        // Garante que o modal de sucesso comece DESATIVADO
+
         if (modalSucesso != null) modalSucesso.SetActive(false);
+
+        if (objetoPrimeiraVida != null)
+        {
+            canvasGroupPrimeiraVida = objetoPrimeiraVida.GetComponent<CanvasGroup>();
+            if (canvasGroupPrimeiraVida != null)
+            {
+                canvasGroupPrimeiraVida.alpha = 0f;
+            }
+            objetoPrimeiraVida.SetActive(false);
+        }
+
+        if (singleHeart != null)
+        {
+            imagemCoracao = singleHeart.GetComponent<UnityEngine.UI.Image>();
+            posicaoOriginalCoracao = singleHeart.anchoredPosition;
+            singleHeart.localScale = Vector3.one;
+        }
 
         if (spritesVidas != null && spritesVidas.Length > 0)
         {
-            vidasAtuais = spritesVidas.Length - 1; 
+            vidasAtuais = spritesVidas.Length - 1;
+            vidasMaximas = vidasAtuais; 
         }
 
         if (batterySlots == null || batterySlots.Length == 0)
@@ -72,7 +109,6 @@ public class FaseManager : MonoBehaviour
             StartCoroutine(FadeRoutine());
         }
     }
-
     public void checkSlots()
     {
         int batteriesFound = 0;
@@ -92,7 +128,7 @@ public class FaseManager : MonoBehaviour
         }
 
         if (batteriesFound == 4)
-        {   
+        {
             Debug.LogError("TESTE");
             TocarSom(successSound, "Sucesso");
 
@@ -111,11 +147,105 @@ public class FaseManager : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimarTelaECoracaoSurgindo()
+    {
+        float tempoDecorrido = 0f;
+
+        if (canvasGroupPrimeiraVida != null) canvasGroupPrimeiraVida.alpha = 0f;
+        if (singleHeart != null)
+        {
+            singleHeart.anchoredPosition = posicaoOriginalCoracao;
+            singleHeart.localScale = Vector3.one;
+        }
+        if (imagemCoracao != null)
+        {
+            Color c = imagemCoracao.color;
+            c.a = 1f;
+            imagemCoracao.color = c;
+        }
+
+        while (tempoDecorrido < tempoEfeitoTotal)
+        {
+            tempoDecorrido += Time.deltaTime;
+            float progressoGlobal = tempoDecorrido / tempoEfeitoTotal;
+
+            if (canvasGroupPrimeiraVida != null)
+            {
+                float progressoFade = Mathf.Clamp01(progressoGlobal / 0.3f);
+                canvasGroupPrimeiraVida.alpha = Mathf.SmoothStep(0f, 1f, progressoFade);
+            }
+
+            if (singleHeart != null)
+            {
+                if (progressoGlobal <= 0.4f)
+                {
+                    float progressoPulso = progressoGlobal / 0.4f;
+                    float escalaPulso = 1f + Mathf.Sin(progressoPulso * Mathf.PI) * 0.3f;
+                    singleHeart.localScale = new Vector3(escalaPulso, escalaPulso, 1f);
+                    singleHeart.anchoredPosition = posicaoOriginalCoracao;
+                }
+                else
+                {
+                    float progressoSumiço = (progressoGlobal - 0.4f) / 0.6f;
+                    float curvaSubida = Mathf.SmoothStep(0f, 1f, progressoSumiço);
+                    float novoY = posicaoOriginalCoracao.y + (curvaSubida * distanciaSubida);
+                    singleHeart.anchoredPosition = new Vector2(posicaoOriginalCoracao.x, novoY);
+
+                    float factorDesaparecer = Mathf.Clamp01(1f - progressoSumiço);
+                    singleHeart.localScale = new Vector3(factorDesaparecer, factorDesaparecer, 1f);
+
+                    if (imagemCoracao != null)
+                    {
+                        Color c = imagemCoracao.color;
+                        c.a = factorDesaparecer;
+                        imagemCoracao.color = c;
+                    }
+                }
+            }
+            yield return null;
+        }
+
+        if (singleHeart != null) singleHeart.localScale = Vector3.zero;
+
+        float tempoEsperaFechamento = 1.0f;
+        float tempoDecorridoFechamento = 0f;
+
+        while (tempoDecorridoFechamento < tempoEsperaFechamento)
+        {
+            tempoDecorridoFechamento += Time.deltaTime;
+            float progressoFechamento = tempoDecorridoFechamento / tempoEsperaFechamento;
+
+            if (canvasGroupPrimeiraVida != null)
+            {
+                canvasGroupPrimeiraVida.alpha = Mathf.Clamp01(1f - progressoFechamento);
+            }
+            yield return null;
+        }
+
+        if (objetoPrimeiraVida != null) objetoPrimeiraVida.SetActive(false);
+        if (singleHeart != null) singleHeart.anchoredPosition = posicaoOriginalCoracao;
+    }
+
     private void ErrouCombinacao()
     {
         if (vidasAtuais > 0)
         {
-            vidasAtuais--; 
+            if (vidasAtuais == vidasMaximas)
+            {
+                TocarSom(somPrimeiraMorte, "Primeira Morte");
+
+                if (objetoPrimeiraVida != null)
+                {
+                    objetoPrimeiraVida.SetActive(true);
+                    StartCoroutine(AnimarTelaECoracaoSurgindo());
+                }
+            }
+            else
+            {
+                TocarSom(errorSound, "Erro");
+            }
+
+            vidasAtuais--;
 
             if (scriptDasVidas != null && spritesVidas != null && vidasAtuais < spritesVidas.Length)
             {
@@ -132,7 +262,7 @@ public class FaseManager : MonoBehaviour
     private void GameOver()
     {
         Debug.LogError("💀 GAME OVER! Ativando modal de pergunta.");
-        
+
         if (modalGameOver != null)
         {
             modalGameOver.SetActive(true);
@@ -152,7 +282,7 @@ public class FaseManager : MonoBehaviour
 
     public void BotaoVoltarMenu()
     {
-        SceneManager.LoadScene("Menu"); 
+        SceneManager.LoadScene("Menu");
     }
 
     public void BotaoProximaFase(string nomeDaProximaCena)
@@ -179,8 +309,8 @@ public class FaseManager : MonoBehaviour
 
         if (videoPlayer != null && painelDoVideo != null)
         {
-            painelDoVideo.SetActive(true); 
-            videoPlayer.Play();   
+            painelDoVideo.SetActive(true);
+            videoPlayer.Play();
 
             videoPlayer.loopPointReached -= AoTerminarOVideoDeVitoria;
             videoPlayer.loopPointReached += AoTerminarOVideoDeVitoria;
@@ -194,7 +324,7 @@ public class FaseManager : MonoBehaviour
         if (modalSucesso != null)
         {
             modalSucesso.SetActive(true);
-            
+
             RectTransform modalRect = modalSucesso.GetComponent<RectTransform>();
             if (modalRect != null) modalRect.SetAsLastSibling();
         }

@@ -40,7 +40,7 @@ public class Fase03 : MonoBehaviour
 
     [Header("Configurações de Fluxo")]
     [Tooltip("Digite o NOME EXATO da próxima cena/fase para onde o jogador vai ao vencer")]
-    [SerializeField] private string nomeDaProximaFase = "Fase_04";
+    [SerializeField] private string nomeDaProximaFase = "Fase04";
 
     [Header("Sistema de Vidas")]
     [Tooltip("Coloque os Sprites em ordem: Posição 0 = 0 vidas, Posição 1 = 1 vida, até o máximo")]

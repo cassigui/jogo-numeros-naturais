@@ -996,8 +996,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Fase02, Assembly-CSharp
+      - m_Target: {fileID: 313083696}
+        m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoProximaFase
         m_Mode: 1
         m_Arguments:
@@ -1447,7 +1447,7 @@ MonoBehaviour:
   scriptDasVidas: {fileID: 580156745}
   modalGameOver: {fileID: 54157503}
   modalSucesso: {fileID: 1096576104}
-  nomeDaProximaFase: Fase_04
+  nomeDaProximaFase: Fase04
   spritesVidas:
   - {fileID: 21300000, guid: 688007cd65c464f48bda36ebaf3dcec4, type: 3}
   - {fileID: 21300000, guid: 0c0513e4b89e3407f83905f7519299cf, type: 3}
@@ -2637,7 +2637,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1820, y: 979.45374}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &700152215
 MonoBehaviour:
@@ -2846,7 +2846,6 @@ RectTransform:
   - {fileID: 1641738006}
   - {fileID: 2109518531}
   - {fileID: 1081331674}
-  - {fileID: 991162070}
   - {fileID: 1918199980}
   - {fileID: 1099035753}
   m_Father: {fileID: 1069608476}
@@ -2863,7 +2862,7 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713458422}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -3875,17 +3874,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 991162069}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 713458423}
+  m_Father: {fileID: 1069608476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 200, y: -400}
-  m_SizeDelta: {x: 1920, y: 1080}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &991162071
 MonoBehaviour:
@@ -4205,12 +4204,12 @@ AudioSource:
   m_GameObject: {fileID: 1035586330}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 0d213d2fed2ed47ce9bad49e44a9eb30, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1.1
+  m_Pitch: 0.92
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -4338,12 +4337,13 @@ RectTransform:
   m_Children:
   - {fileID: 700152214}
   - {fileID: 713458423}
+  - {fileID: 991162070}
   m_Father: {fileID: 1008238687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1081331673
 GameObject:
@@ -5137,6 +5137,7 @@ MonoBehaviour:
   - {fileID: 951041459}
   - {fileID: 1742219898}
   - {fileID: 1793635043}
+  limiteSoma: 10
 --- !u!4 &1243028817
 Transform:
   m_ObjectHideFlags: 0
@@ -5691,8 +5692,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Fase02, Assembly-CSharp
+      - m_Target: {fileID: 313083696}
+        m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoVoltarMenu
         m_Mode: 1
         m_Arguments:
@@ -6343,7 +6344,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0.000091552734}
+  m_AnchoredPosition: {x: 0, y: 0.000061035156}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1641738007
