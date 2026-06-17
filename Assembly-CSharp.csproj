@@ -52,6 +52,8 @@
     <Compile Include="Assets/Scripts/DraggableResultado.cs" />
     <Compile Include="Assets/Scripts/AudioManagerPersistente.cs" />
     <Compile Include="Assets/Scripts/HeartAnimation.cs" />
+    <Compile Include="Assets/Scripts/StatsManager.cs" />
+    <Compile Include="Assets/Scripts/GameModels.cs" />
     <Compile Include="Assets/Scripts/SoundSettings.cs" />
     <Compile Include="Assets/Scripts/HelperManager.cs" />
     <Compile Include="Assets/Scripts/GerenciadorContas.cs" />
@@ -59,12 +61,13 @@
     <Compile Include="Assets/Scripts/MenuPrincipalManager.cs" />
     <Compile Include="Assets/Scripts/Fase03.cs" />
     <Compile Include="Assets/Scripts/DraggableItem.cs" />
+    <Compile Include="Assets/Scripts/GerenciadorTelaRelatorio.cs" />
     <Compile Include="Assets/Scripts/TecladoSenhaManager.cs" />
     <Compile Include="Assets/Scripts/SlotConta.cs" />
     <Compile Include="Assets/Scripts/Fase02.cs" />
+    <Compile Include="Assets/Scripts/ElementoRelatorioFase.cs" />
     <Compile Include="Assets/Scripts/LockAnimation.cs" />
     <Compile Include="Assets/Scripts/SlotItem.cs" />
-    <Compile Include="Assets/Scripts/Fase04.cs" />
     <Compile Include="Assets/Scripts/FaseManager.cs" />
     <Compile Include="Assets/Scripts/PulseItem.cs" />
     <Compile Include="Assets/Scripts/PowerButton.cs" />

@@ -17,9 +17,9 @@ public class Fase03 : MonoBehaviour
 
     [Tooltip("Distância em pixels que o coração vai subir ao desaparecer")]
     [SerializeField] private float distanciaSubida = 150f;
-    
+
     private UnityEngine.UI.Image imagemCoracao;
-    private CanvasGroup canvasGroupPrimeiraVida; 
+    private CanvasGroup canvasGroupPrimeiraVida;
     private Vector2 posicaoOriginalCoracao;
 
     [Header("Configurações de UI Geral")]
@@ -46,17 +46,24 @@ public class Fase03 : MonoBehaviour
     [Tooltip("Coloque os Sprites em ordem: Posição 0 = 0 vidas, Posição 1 = 1 vida, até o máximo")]
     [SerializeField] private Sprite[] spritesVidas;
     private int vidasAtuais;
-    private int vidasMaximas; 
+    private int vidasMaximas;
 
     [Header("Configurações de Áudio")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip errorSound;
     [SerializeField] private AudioClip successSound;
     [Tooltip("Áudio que tocará exclusivamente na primeira perda de vida")]
-    [SerializeField] private AudioClip somPrimeiraMorte; 
+    [SerializeField] private AudioClip somPrimeiraMorte;
+
+    private StatsManager statsManager;
 
     void Start()
     {
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.RegisterLevelStart(SceneManager.GetActiveScene().name);
+        }
+
         if (painelDoVideo != null) painelDoVideo.SetActive(false);
         if (modalGameOver != null) modalGameOver.SetActive(false);
         if (modalSucesso != null) modalSucesso.SetActive(false);
@@ -74,14 +81,14 @@ public class Fase03 : MonoBehaviour
         if (singleHeart != null)
         {
             imagemCoracao = singleHeart.GetComponent<UnityEngine.UI.Image>();
-            posicaoOriginalCoracao = singleHeart.anchoredPosition; 
-            singleHeart.localScale = Vector3.one; 
+            posicaoOriginalCoracao = singleHeart.anchoredPosition;
+            singleHeart.localScale = Vector3.one;
         }
 
         if (spritesVidas != null && spritesVidas.Length > 0)
         {
-            vidasAtuais = spritesVidas.Length - 1; 
-            vidasMaximas = vidasAtuais; 
+            vidasAtuais = spritesVidas.Length - 1;
+            vidasMaximas = vidasAtuais;
         }
 
         if (meuBotaoPower == null) meuBotaoPower = Object.FindAnyObjectByType<PowerButton>();
@@ -91,7 +98,7 @@ public class Fase03 : MonoBehaviour
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0;
-            canvasGroup.interactable = false; 
+            canvasGroup.interactable = false;
             canvasGroup.blocksRaycasts = false;
             StartCoroutine(FadeRoutine());
         }
@@ -137,8 +144,8 @@ public class Fase03 : MonoBehaviour
                 {
                     // ETAPA A: PULSAR (0% a 40%)
                     float progressoPulso = progressoGlobal / 0.4f;
-                    float escalaPulso = 1f + Mathf.Sin(progressoPulso * Mathf.PI) * 0.3f; 
-                    
+                    float escalaPulso = 1f + Mathf.Sin(progressoPulso * Mathf.PI) * 0.3f;
+
                     singleHeart.localScale = new Vector3(escalaPulso, escalaPulso, 1f);
                     singleHeart.anchoredPosition = posicaoOriginalCoracao;
                 }
@@ -147,7 +154,7 @@ public class Fase03 : MonoBehaviour
                     // ETAPA B: DESAPARECER PARA CIMA (40% a 100%)
                     float progressoSumiço = (progressoGlobal - 0.4f) / 0.6f;
                     float curvaSubida = Mathf.SmoothStep(0f, 1f, progressoSumiço);
-                    
+
                     float novoY = posicaoOriginalCoracao.y + (curvaSubida * distanciaSubida);
                     singleHeart.anchoredPosition = new Vector2(posicaoOriginalCoracao.x, novoY);
 
@@ -163,7 +170,7 @@ public class Fase03 : MonoBehaviour
                 }
             }
 
-            yield return null; 
+            yield return null;
         }
 
         // Garante os estados finais da animação (Coração 100% oculto)
@@ -217,6 +224,7 @@ public class Fase03 : MonoBehaviour
 
     private void ErrouCombinacao()
     {
+        Debug.Log("Tentativa incorreta registrada.");
         if (vidasAtuais > 0)
         {
             if (vidasAtuais == vidasMaximas)
@@ -226,7 +234,7 @@ public class Fase03 : MonoBehaviour
                 if (objetoPrimeiraVida != null)
                 {
                     objetoPrimeiraVida.SetActive(true);
-                    StartCoroutine(AnimarTelaECoracaoSurgindo()); 
+                    StartCoroutine(AnimarTelaECoracaoSurgindo());
                 }
             }
             else
@@ -235,6 +243,17 @@ public class Fase03 : MonoBehaviour
             }
 
             vidasAtuais--;
+
+            StatsManager stats = Object.FindAnyObjectByType<StatsManager>();
+            if (StatsManager.Instance != null)
+            {
+                StatsManager.Instance.RegisterError(SceneManager.GetActiveScene().name);
+                Debug.Log("✅ Erro registrado para: " + SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                Debug.LogError("❌ StatsManager não encontrado!");
+            }
 
             if (scriptDasVidas != null && spritesVidas != null && vidasAtuais < spritesVidas.Length)
             {
@@ -267,6 +286,11 @@ public class Fase03 : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void GerarRelatorio()
+    {
+        SceneManager.LoadScene("Relatorio");
+    }
+    
     public void BotaoVoltarMenu()
     {
         SceneManager.LoadScene("Menu");
@@ -306,6 +330,15 @@ public class Fase03 : MonoBehaviour
 
     private void AoTerminarOVideoDeVitoria(VideoPlayer source)
     {
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.RegisterWin(SceneManager.GetActiveScene().name, vidasAtuais);
+        }
+        else
+        {
+            Debug.LogError("StatsManager não encontrado ao terminar a fase!");
+        }
+
         videoPlayer.loopPointReached -= AoTerminarOVideoDeVitoria;
         if (painelDoVideo != null) painelDoVideo.SetActive(false);
 

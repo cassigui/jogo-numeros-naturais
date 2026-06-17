@@ -53,8 +53,15 @@ public class FaseManager : MonoBehaviour
     [SerializeField] private AudioClip errorSound;
     [SerializeField] private AudioClip successSound;
 
+    private StatsManager statsManager;
+
     void Start()
     {
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.RegisterLevelStart(SceneManager.GetActiveScene().name);
+        }
+
         if (painelDoVideo != null) painelDoVideo.SetActive(false);
         if (modalGameOver != null) modalGameOver.SetActive(false);
 
@@ -80,7 +87,7 @@ public class FaseManager : MonoBehaviour
         if (spritesVidas != null && spritesVidas.Length > 0)
         {
             vidasAtuais = spritesVidas.Length - 1;
-            vidasMaximas = vidasAtuais; 
+            vidasMaximas = vidasAtuais;
         }
 
         if (batterySlots == null || batterySlots.Length == 0)
@@ -247,6 +254,17 @@ public class FaseManager : MonoBehaviour
 
             vidasAtuais--;
 
+            StatsManager stats = Object.FindAnyObjectByType<StatsManager>();
+            if (StatsManager.Instance != null)
+            {
+                StatsManager.Instance.RegisterError(SceneManager.GetActiveScene().name);
+                Debug.Log("✅ Erro registrado para: " + SceneManager.GetActiveScene().name);
+            }
+            else
+            {
+                Debug.LogError("❌ StatsManager não encontrado!");
+            }
+
             if (scriptDasVidas != null && spritesVidas != null && vidasAtuais < spritesVidas.Length)
             {
                 scriptDasVidas.AtualizarSpriteVidas(spritesVidas[vidasAtuais]);
@@ -319,6 +337,15 @@ public class FaseManager : MonoBehaviour
 
     private void AoTerminarOVideoDeVitoria(VideoPlayer source)
     {
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.RegisterWin(SceneManager.GetActiveScene().name, vidasAtuais);
+        }
+        else
+        {
+            Debug.LogError("StatsManager não encontrado ao terminar a fase!");
+        }
+
         videoPlayer.loopPointReached -= AoTerminarOVideoDeVitoria;
         if (painelDoVideo != null) painelDoVideo.SetActive(false);
         if (modalSucesso != null)

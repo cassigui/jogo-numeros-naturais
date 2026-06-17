@@ -230,7 +230,7 @@ RectTransform:
   - {fileID: 1766339834}
   - {fileID: 2059427100}
   - {fileID: 1471712429}
-  m_Father: {fileID: 1008238687}
+  m_Father: {fileID: 1069608476}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 313083696}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoReiniciarFase
         m_Mode: 1
@@ -996,9 +996,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Fase02, Assembly-CSharp
-        m_MethodName: BotaoProximaFase
+      - m_Target: {fileID: 313083696}
+        m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
+        m_MethodName: GerarRelatorio
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1436,18 +1436,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Fase03
   objetoPrimeiraVida: {fileID: 1099035752}
   singleHeart: {fileID: 165119530}
-  tempoEfeitoTotal: 1.8
+  tempoEfeitoTotal: 1.2
   distanciaSubida: 150
   canvasGroup: {fileID: 713458424}
   delay: 1.5
   duration: 1
   meuBotaoPower: {fileID: 0}
-  videoPlayer: {fileID: 2035480643}
+  videoPlayer: {fileID: 92749017}
   painelDoVideo: {fileID: 991162069}
   scriptDasVidas: {fileID: 580156745}
   modalGameOver: {fileID: 54157503}
   modalSucesso: {fileID: 1096576104}
-  nomeDaProximaFase: Fase_04
+  nomeDaProximaFase: Fase04
   spritesVidas:
   - {fileID: 21300000, guid: 688007cd65c464f48bda36ebaf3dcec4, type: 3}
   - {fileID: 21300000, guid: 0c0513e4b89e3407f83905f7519299cf, type: 3}
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 313083696}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoVoltarMenu
         m_Mode: 1
@@ -2189,6 +2189,138 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586385288}
+  m_CullTransparentMesh: 1
+--- !u!1 &604841871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 604841872}
+  - component: {fileID: 604841875}
+  - component: {fileID: 604841874}
+  - component: {fileID: 604841873}
+  m_Layer: 5
+  m_Name: Btn-home
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &604841872
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604841871}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.0000155, y: 1.0000155, z: 1.0000155}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1302208705}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -730, y: 419.99985}
+  m_SizeDelta: {x: 130, y: 130}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &604841873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604841871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Button
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 604841874}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 313083696}
+        m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
+        m_MethodName: BotaoVoltarMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &604841874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604841871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: -7784791948548698394, guid: 7f9f5617b09af4a369471de49f47d732, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &604841875
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604841871}
   m_CullTransparentMesh: 1
 --- !u!1 &619394800
 GameObject:
@@ -2862,7 +2994,7 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713458422}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -3861,7 +3993,7 @@ GameObject:
   - component: {fileID: 991162072}
   - component: {fileID: 991162071}
   m_Layer: 5
-  m_Name: TelaVideoFechadura
+  m_Name: TelaVideoLigandoTV
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4018,7 +4150,6 @@ RectTransform:
   - {fileID: 1069608476}
   - {fileID: 1096576105}
   - {fileID: 1302208705}
-  - {fileID: 54157504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4209,7 +4340,7 @@ AudioSource:
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 0.92
+  m_Pitch: 0.96
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -4337,6 +4468,7 @@ RectTransform:
   m_Children:
   - {fileID: 700152214}
   - {fileID: 713458423}
+  - {fileID: 54157504}
   - {fileID: 991162070}
   m_Father: {fileID: 1008238687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5187,6 +5319,7 @@ RectTransform:
   - {fileID: 686942565}
   - {fileID: 1401479364}
   - {fileID: 269206733}
+  - {fileID: 604841872}
   m_Father: {fileID: 1008238687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
