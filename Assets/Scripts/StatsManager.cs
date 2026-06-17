@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.IO;
-using System.Linq;
+using System.Collections.Generic;
 
 public class StatsManager : MonoBehaviour
 {
@@ -8,16 +8,8 @@ public class StatsManager : MonoBehaviour
     public static StatsManager Instance { get; private set; }
 
     private string filePath;
-    public GameReport report = new GameReport();
+    public GameReport report = new GameReport(); // Sua variável correta se chama 'report'
 
-    public void AtualizarNomeDoJogador(string novoNome)
-    {
-        if (this.report != null) 
-        {
-            this.report.playerName = novoNome;
-            Debug.Log($"[StatsManager] Nome atualizado na memória: {novoNome}");
-        }
-    }
     void Awake()
     {
         // Padrão Singleton
@@ -36,46 +28,69 @@ public class StatsManager : MonoBehaviour
         }
     }
 
+    // Função pública para forçar o StatsManager a reler o JSON (útil após o menu salvar o nome)
+    public void RecarregarDadosDoDisco()
+    {
+        LoadStats();
+    }
+
+    // Helper interno para buscar o PlayerReport do aluno ativo do momento
+    private PlayerReport ObterAlunoAtivo()
+    {
+        if (report == null || string.IsNullOrEmpty(report.currentPlayerName))
+        {
+            Debug.LogWarning("[StatsManager] Nenhum aluno ativo definido no currentPlayerName.");
+            return null;
+        }
+
+        // Busca o aluno na lista
+        PlayerReport aluno = report.players.Find(p => p.playerName == report.currentPlayerName);
+        
+        // Se por algum motivo o aluno não existir na lista, cria ele por segurança
+        if (aluno == null)
+        {
+            aluno = new PlayerReport { playerName = report.currentPlayerName };
+            report.players.Add(aluno);
+        }
+
+        return aluno;
+    }
+
+    // Helper interno para buscar ou criar uma fase para o aluno ativo
+    private LevelData ObterOuCriarFaseDoAluno(PlayerReport aluno, string levelName)
+    {
+        if (aluno.levels == null) aluno.levels = new List<LevelData>();
+
+        LevelData data = aluno.levels.Find(l => l.levelName == levelName);
+        if (data == null)
+        {
+            data = new LevelData { levelName = levelName, timesPlayed = 0, totalErrors = 0, wins = 0, totalRemainingLivesAtWin = 0 };
+            aluno.levels.Add(data);
+        }
+        return data;
+    }
+
     // Chama isso no Start de cada FaseManager
     public void RegisterLevelStart(string levelName)
     {
-        LevelData data = report.levels.FirstOrDefault(l => l.levelName == levelName);
-
-        if (data == null)
+        PlayerReport alunoAtivo = ObterAlunoAtivo();
+        if (alunoAtivo != null)
         {
-            data = new LevelData { levelName = levelName, timesPlayed = 1, totalErrors = 0 };
-            report.levels.Add(data);
-        }
-        else
-        {
+            LevelData data = ObterOuCriarFaseDoAluno(alunoAtivo, levelName);
             data.timesPlayed++;
+            SaveStats();
         }
-        SaveStats();
     }
 
     // Chama isso sempre que o jogador perder uma vida
     public void RegisterError(string levelName)
     {
-        LevelData data = report.levels.FirstOrDefault(l => l.levelName == levelName);
-        if (data != null)
+        PlayerReport alunoAtivo = ObterAlunoAtivo();
+        if (alunoAtivo != null)
         {
+            LevelData data = ObterOuCriarFaseDoAluno(alunoAtivo, levelName);
             data.totalErrors++;
             SaveStats();
-        }
-    }
-
-    private void SaveStats()
-    {
-        string json = JsonUtility.ToJson(report, true);
-        File.WriteAllText(filePath, json);
-    }
-
-    private void LoadStats()
-    {
-        if (File.Exists(filePath))
-        {
-            string json = File.ReadAllText(filePath);
-            report = JsonUtility.FromJson<GameReport>(json);
         }
     }
 
@@ -83,17 +98,40 @@ public class StatsManager : MonoBehaviour
     {
         if (Instance == null)
         {
-            Debug.LogWarning("StatsManager.Instance estava nulo. Tentando recuperar...");
             Instance = Object.FindAnyObjectByType<StatsManager>();
-            if (Instance == null) return; // Sai para evitar o erro se não achar nada
+            if (Instance == null) return;
         }
 
-        LevelData data = report.levels.FirstOrDefault(l => l.levelName == levelName);
-        if (data != null)
+        PlayerReport alunoAtivo = ObterAlunoAtivo();
+        if (alunoAtivo != null)
         {
+            LevelData data = ObterOuCriarFaseDoAluno(alunoAtivo, levelName);
             data.wins++;
             data.totalRemainingLivesAtWin = remainingLives;
             SaveStats();
+        }
+    }
+
+    public void SaveStats()
+    {
+        string json = JsonUtility.ToJson(report, true);
+        File.WriteAllText(filePath, json);
+    }
+
+    public void LoadStats()
+    {
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            report = JsonUtility.FromJson<GameReport>(json);
+            
+            // Garante que a lista de jogadores nunca fique nula
+            if (report == null) report = new GameReport();
+            if (report.players == null) report.players = new List<PlayerReport>();
+        }
+        else
+        {
+            report = new GameReport();
         }
     }
 }

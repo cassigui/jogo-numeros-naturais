@@ -91,29 +91,44 @@ public class MenuPrincipal : MonoBehaviour
     {
         if (inputFieldNome == null || string.IsNullOrEmpty(inputFieldNome.text))
         {
-            Debug.LogWarning("Input de nome vazio ou não configurado. Nome não foi salvo.");
+            Debug.LogWarning("Input de nome vazio. Nome não foi salvo.");
             return;
         }
 
+        string nomeDigitado = inputFieldNome.text;
+        string caminhoArquivo = Path.Combine(Application.persistentDataPath, nomeArquivoJson);
+        GameReport relatorioGeral = new GameReport();
+
+        // 1. Se o arquivo já existe, carrega o histórico de todo mundo
+        if (File.Exists(caminhoArquivo))
+        {
+            string jsonAntigo = File.ReadAllText(caminhoArquivo);
+            relatorioGeral = JsonUtility.FromJson<GameReport>(jsonAntigo);
+        }
+
+        // 2. Define quem é o jogador ativo do momento
+        relatorioGeral.currentPlayerName = nomeDigitado;
+
+        // 3. Procura se esse aluno já existe na lista geral
+        PlayerReport alunoExistente = relatorioGeral.players.Find(p => p.playerName == nomeDigitado);
+
+        if (alunoExistente == null)
+        {
+            // Se é um aluno novo, cria o registro dele na lista
+            PlayerReport novoAluno = new PlayerReport();
+            novoAluno.playerName = nomeDigitado;
+            relatorioGeral.players.Add(novoAluno);
+            Debug.Log($"Novo aluno '{nomeDigitado}' cadastrado no sistema.");
+        }
+
+        // 4. Salva o arquivo atualizado de volta no disco
+        string novoJson = JsonUtility.ToJson(relatorioGeral, true);
+        File.WriteAllText(caminhoArquivo, novoJson);
+
         if (StatsManager.Instance != null)
         {
-            StatsManager.Instance.AtualizarNomeDoJogador(inputFieldNome.text);
-            Debug.Log($"Nome '{inputFieldNome.text}' enviado para o StatsManager!");
-        }
-        else
-        {
-            string caminhoArquivo = Path.Combine(Application.persistentDataPath, nomeArquivoJson);
-            GameReport relatorioAtual = new GameReport();
-
-            if (File.Exists(caminhoArquivo))
-            {
-                string jsonAntigo = File.ReadAllText(caminhoArquivo);
-                relatorioAtual = JsonUtility.FromJson<GameReport>(jsonAntigo);
-            }
-
-            relatorioAtual.playerName = inputFieldNome.text;
-            File.WriteAllText(caminhoArquivo, JsonUtility.ToJson(relatorioAtual, true));
-            Debug.Log($"Nome '{inputFieldNome.text}' salvo diretamente no arquivo via menu.");
+            StatsManager.Instance.RecarregarDadosDoDisco();
+            Debug.Log("[Menu] StatsManager notificado e atualizado com o aluno ativo.");
         }
     }
 
