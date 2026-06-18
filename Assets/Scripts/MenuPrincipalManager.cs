@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro; // <-- Importante para usar o InputField
+using TMPro; 
 using System.IO;
 
 public class MenuPrincipal : MonoBehaviour
@@ -77,7 +77,7 @@ public class MenuPrincipal : MonoBehaviour
 
     public void AbrirOpcoes()
     {
-        painelMenuInicial.SetActive(false);
+        // painelMenuInicial.SetActive(false);
         painelOpcoes.SetActive(true);
     }
 
@@ -85,6 +85,21 @@ public class MenuPrincipal : MonoBehaviour
     {
         painelMenuInicial.SetActive(true);
         modalNome.SetActive(false);
+    }
+
+    public void BotaoExportarRelatorioGeral()
+    {
+        PlayClick();
+
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.ExportarRelatorioFormatado();
+            Debug.Log("[Menu] Solicitação de exportação enviada ao StatsManager.");
+        }
+        else
+        {
+            Debug.LogError("[Menu] Não foi possível exportar: StatsManager não foi encontrado na cena!");
+        }
     }
 
     private void SalvarNomeNoReport()
