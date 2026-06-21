@@ -230,7 +230,7 @@ RectTransform:
   - {fileID: 1766339834}
   - {fileID: 2059427100}
   - {fileID: 1471712429}
-  m_Father: {fileID: 1069608476}
+  m_Father: {fileID: 1008238687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -414,7 +414,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 92749016}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a00c83674449042d2941330f47d73aea, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7aea6de4565374a30acea57158b03b97, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -540,7 +540,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 313083696}
         m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoReiniciarFase
         m_Mode: 1
@@ -1442,7 +1442,7 @@ MonoBehaviour:
   delay: 1.5
   duration: 1
   meuBotaoPower: {fileID: 0}
-  videoPlayer: {fileID: 92749017}
+  videoPlayer: {fileID: 2035480643}
   painelDoVideo: {fileID: 991162069}
   scriptDasVidas: {fileID: 580156745}
   modalGameOver: {fileID: 54157503}
@@ -1542,7 +1542,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 313083696}
         m_TargetAssemblyTypeName: Fase03, Assembly-CSharp
         m_MethodName: BotaoVoltarMenu
         m_Mode: 1
@@ -2768,8 +2768,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 60, y: -10}
+  m_SizeDelta: {x: 120, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &700152215
 MonoBehaviour:
@@ -2994,7 +2994,7 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 713458422}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -4015,8 +4015,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 120, y: 0}
+  m_SizeDelta: {x: 240, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &991162071
 MonoBehaviour:
@@ -4149,6 +4149,7 @@ RectTransform:
   m_Children:
   - {fileID: 1069608476}
   - {fileID: 1096576105}
+  - {fileID: 54157504}
   - {fileID: 1302208705}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4468,7 +4469,6 @@ RectTransform:
   m_Children:
   - {fileID: 700152214}
   - {fileID: 713458423}
-  - {fileID: 54157504}
   - {fileID: 991162070}
   m_Father: {fileID: 1008238687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
