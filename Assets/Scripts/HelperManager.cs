@@ -14,7 +14,7 @@ public class HelperManager : MonoBehaviour
     [SerializeField] private AudioClip hoverSound;
     [SerializeField] private AudioClip clickSound;
 
-    [SerializeField] private VideoPlayer tutorialVideoPlayer; 
+    [SerializeField] private VideoPlayer tutorialVideoPlayer;
     [SerializeField] private GameObject videoCanvasOuObjeto;
     [SerializeField] private Button botaoReiniciar;
 
@@ -59,19 +59,56 @@ public class HelperManager : MonoBehaviour
 
         if (tutorialVideoPlayer != null)
         {
-            tutorialVideoPlayer.frame = 0;
-            if (videoCanvasOuObjeto != null)
-                videoCanvasOuObjeto.SetActive(true);
+            // =========================================================================
+            // CORREÇÃO CRÍTICA PARA BUILD DO WINDOWS (Media Foundation Engine Fix)
+            // =========================================================================
 
-            tutorialVideoPlayer.Play();
-            
+            // 1. Força o reprodutor do Windows a parar qualquer requisição fantasma em segundo plano
+            tutorialVideoPlayer.Stop();
+
+            // 2. Desvincula temporariamente a textura de renderização para limpar o buffer do DirectX
+            RenderTexture texturaTemporaria = tutorialVideoPlayer.targetTexture;
+            tutorialVideoPlayer.targetTexture = null;
+            tutorialVideoPlayer.targetTexture = texturaTemporaria;
+
+            // 3. Recarrega o clipe diretamente da memória da Build
+            VideoClip clipeDesejado = tutorialVideoPlayer.clip;
+            tutorialVideoPlayer.clip = null;
+            tutorialVideoPlayer.clip = clipeDesejado;
+
+            // =========================================================================
+
+            // Limpa e reinscreve os eventos assíncronos
             tutorialVideoPlayer.loopPointReached -= AoTerminarOVideo;
+            tutorialVideoPlayer.prepareCompleted -= VideoPreparadoProntoParaRodar;
+
             tutorialVideoPlayer.loopPointReached += AoTerminarOVideo;
+            tutorialVideoPlayer.prepareCompleted += VideoPreparadoProntoParaRodar;
+
+            // Oculta o objeto visual enquanto o Windows recria o buffer do vídeo
+            if (videoCanvasOuObjeto != null)
+                videoCanvasOuObjeto.SetActive(false);
+
+            // Diz para o Windows: "Aloque a memória para este novo arquivo agora"
+            tutorialVideoPlayer.Prepare();
         }
         else
         {
             level.SetActive(true);
         }
+    }
+
+    private void VideoPreparadoProntoParaRodar(VideoPlayer source)
+    {
+        // Remove o evento para evitar que seja chamado repetidamente na mesma execução
+        tutorialVideoPlayer.prepareCompleted -= VideoPreparadoProntoParaRodar;
+
+        // Ativa o objeto visual agora que o Windows carregou o arquivo na memória
+        if (videoCanvasOuObjeto != null)
+            videoCanvasOuObjeto.SetActive(true);
+
+        // Dá o play definitivo
+        tutorialVideoPlayer.Play();
     }
 
     private void AoTerminarOVideo(VideoPlayer source)
@@ -91,9 +128,9 @@ public class HelperManager : MonoBehaviour
 
         if (tutorialVideoPlayer != null)
         {
-            tutorialVideoPlayer.frame = 0; 
+            tutorialVideoPlayer.frame = 0;
             tutorialVideoPlayer.Play();
-            
+
             tutorialVideoPlayer.loopPointReached -= AoTerminarOVideo;
             tutorialVideoPlayer.loopPointReached += AoTerminarOVideo;
         }

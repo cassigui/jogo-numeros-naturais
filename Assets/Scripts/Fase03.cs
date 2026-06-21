@@ -214,7 +214,39 @@ public class Fase03 : MonoBehaviour
     {
         TocarSom(successSound, "Sucesso Conta");
         if (meuBotaoPower != null) meuBotaoPower.LigarBotao();
-        StartCoroutine(PlayVideoRoutine());
+        StartCoroutine(SucessoSemVideoRoutine());
+        // StartCoroutine(PlayVideoRoutine());
+    }
+
+    private IEnumerator SucessoSemVideoRoutine()
+    {
+        if (scriptDasVidas != null)
+        {
+            scriptDasVidas.EsconderCoracoes();
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (StatsManager.Instance != null)
+        {
+            StatsManager.Instance.RegisterWin(SceneManager.GetActiveScene().name, vidasAtuais);
+        }
+        else
+        {
+            Debug.LogError("StatsManager não encontrado ao terminar a fase!");
+        }
+
+        if (modalSucesso != null)
+        {
+            modalSucesso.SetActive(true);
+
+            RectTransform modalRect = modalSucesso.GetComponent<RectTransform>();
+            if (modalRect != null) modalRect.SetAsLastSibling();
+        }
+        else
+        {
+            BotaoVoltarMenu();
+        }
     }
 
     public void SenhaIncorretaErrou()
@@ -290,7 +322,7 @@ public class Fase03 : MonoBehaviour
     {
         SceneManager.LoadScene("Relatorio");
     }
-    
+
     public void BotaoVoltarMenu()
     {
         SceneManager.LoadScene("Menu");

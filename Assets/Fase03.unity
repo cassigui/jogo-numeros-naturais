@@ -1439,8 +1439,8 @@ MonoBehaviour:
   tempoEfeitoTotal: 1.2
   distanciaSubida: 150
   canvasGroup: {fileID: 713458424}
-  delay: 1.5
-  duration: 1
+  delay: 0.5
+  duration: 0.5
   meuBotaoPower: {fileID: 0}
   videoPlayer: {fileID: 2035480643}
   painelDoVideo: {fileID: 991162069}
